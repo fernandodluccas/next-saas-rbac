@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { FastifyInstance } from "fastify";
 import z from "zod";
+import { BadRequestError } from "../_errors/bad-request-eerror";
 
 export async function getProfile(app: FastifyInstance) {
     app.get(
@@ -40,7 +41,7 @@ export async function getProfile(app: FastifyInstance) {
             });
 
             if (!user) {
-                throw new Error("User not found");
+                throw new BadRequestError("User not found");
             }
 
             return reply.send({ user });

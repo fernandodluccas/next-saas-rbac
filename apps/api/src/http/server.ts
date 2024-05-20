@@ -11,18 +11,21 @@ import fastifySwaggerUi from "@fastify/swagger-ui";
 import { authenticateWithPassword } from "./routes/auth/authenticate-with-password";
 import fastifyJwt from "@fastify/jwt";
 import { getProfile } from "./routes/auth/get-profile";
+import { errorHandler } from "./error-handler";
 
 const app = fastify();
 
 app.setSerializerCompiler(serializerCompiler);
 app.setValidatorCompiler(validatorCompiler);
 
+app.setErrorHandler(errorHandler);
+
 app.register(fastifySwagger, {
     openapi: {
         info: {
             title: "Next.js SaaS",
             description: "Fullstack SaaS app with multi-tentant & RBAC",
-            version: "0.1.0",
+            version: "1.0.0",
         },
         servers: [],
     },
