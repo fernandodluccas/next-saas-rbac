@@ -35,7 +35,7 @@ export async function resetPassword(app: FastifyInstance) {
                 throw new UnauthorizedError("Invalid code");
             }
 
-            const passwordHash = await hash(password, 10);
+            const passwordHash = await hash(password, 6);
 
             await prisma.user.update({
                 where: {
