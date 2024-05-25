@@ -13,6 +13,7 @@ import fastifyJwt from "@fastify/jwt";
 import { getProfile } from "./routes/auth/get-profile";
 import { errorHandler } from "./error-handler";
 import { requestPasswordRecover } from "./routes/auth/request-password-recover";
+import { env } from "@saas/env";
 
 const app = fastify();
 
@@ -28,7 +29,16 @@ app.register(fastifySwagger, {
             description: "Fullstack SaaS app with multi-tentant & RBAC",
             version: "1.0.0",
         },
-        servers: [],
+        components: {
+            securitySchemes: {
+                BearerAuth: {
+                    type: "http",
+                    scheme: "bearer",
+                    bearerFormat: "JWT",
+
+                }
+            }
+        },
     },
     transform: jsonSchemaTransform,
 });
@@ -38,7 +48,7 @@ app.register(fastifySwaggerUi, {
 });
 
 app.register(fastifyJwt, {
-    secret: "super"
+    secret: env.JWT_SECRET,
 })
 
 app.register(fastifyCors);
@@ -48,6 +58,6 @@ app.register(authenticateWithPassword);
 app.register(getProfile);
 app.register(requestPasswordRecover);
 
-app.listen({ port: 3333 }).then(() => {
+app.listen({ port: env.SERVER_PORT }).then(() => {
     console.log("HTTP Server running");
 });
