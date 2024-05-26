@@ -14,6 +14,7 @@ import { getProfile } from "./routes/auth/get-profile";
 import { errorHandler } from "./error-handler";
 import { requestPasswordRecover } from "./routes/auth/request-password-recover";
 import { env } from "@saas/env";
+import { createOrganization } from "./routes/orgs/create-organization";
 
 const app = fastify();
 
@@ -57,6 +58,8 @@ app.register(createAccount);
 app.register(authenticateWithPassword);
 app.register(getProfile);
 app.register(requestPasswordRecover);
+
+app.register(createOrganization);
 
 app.listen({ port: env.SERVER_PORT }).then(() => {
     console.log("HTTP Server running");
